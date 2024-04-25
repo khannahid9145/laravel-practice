@@ -1,0 +1,18 @@
+header {
+    background-color: #666;
+    padding: 30px;
+    text-align: center;
+    font-size: 35px;
+    color: white;
+}
+main{
+    text-align: center;
+    background-color: #f1f1f1;
+    height: 300px; 
+}
+form{
+    border: 2px solid black;
+    width: 520px;
+    padding: 17px 18px;
+    margin: 0px 0px 0px 650px;
+}
