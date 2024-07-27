@@ -1,5 +1,10 @@
 @extends('layout.masterlayout')
 @section('content')
+
+<a href="/layoutDesign" class="btn btn-secondary">Design Layout Page</a>
+<a href="{{ route('alldata') }}" class="btn btn-secondary">Page Control alldata</a>
+<a href="{{ route('home') }}" class="btn btn-secondary">Page Control</a>
+
     <p>Hello Layout</p>
     <h5>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti repudiandae non facere similique eos veniam
         consectetur voluptate consequuntur, sit vitae, eum numquam illum nihil a repellat placeat nisi est! Cumque ex error
