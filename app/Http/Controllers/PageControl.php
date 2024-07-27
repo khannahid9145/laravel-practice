@@ -89,4 +89,20 @@ class PageControl extends Controller
     public function deleteAllUser(){
         $deleteAll =  DB::table("cities")->delete();
     }
+
+    public function checkCredentials(Request $req){
+        // print_r($req);exit;
+        $check = DB::table("students")->where("name",$req->name)->where("email",$req->email)->exists();
+        if($check){
+            // return view("layout1");
+            return response()->json(['redirect' => route('layout')]);
+            
+        }else{
+            echo "<h1>Invalid credentials</h1>";
+        }
+    }
+
+    public function layout(){
+        return view("layout1");
+    }
 }
