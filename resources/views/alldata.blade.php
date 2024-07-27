@@ -26,7 +26,8 @@
                             <td>{{ $user->city }}</td>
                             <td>{{ $user->gender }}</td>
                             <td>{{ $user->area }}</td>
-                            <td><button type="button" class="btn btn-primary" onclick= "updateData({{ $user->id}},'view')">View</button></td>
+                            <td><button type="button" class="btn btn-primary"
+                                    onclick= "updateData({{ $user->id }},'view')">View</button></td>
                             <td><button type="button" class="btn btn-primary"
                                     onclick= "updateData({{ $user->id }},'update')">update</button>
                             </td>
@@ -141,8 +142,10 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="closebtn" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" id="updatebtn" onclick="update()" class="btn btn-primary">Save changes</button>
+                    <button type="button" id="closebtn" class="btn btn-secondary"
+                        data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="updatebtn" onclick="update()" class="btn btn-primary">Save
+                        changes</button>
                 </div>
             </div>
         </div>
@@ -157,7 +160,7 @@
             }
         });
 
-        function updateData(userId,param) {
+        function updateData(userId, param) {
             $.ajax({
                 url: '/updatePage/' + userId,
                 type: 'GET',
@@ -168,7 +171,7 @@
                         if (param == 'view') {
                             $("#updatebtn").hide();
                             $("#closebtn").hide();
-                        }else{
+                        } else {
                             $("#updatebtn").show();
                             $("#closebtn").show();
                         }
@@ -230,7 +233,7 @@
             });
         }
 
-        function create(){
+        function create() {
             var name = document.getElementById("fname").value;
             var email = document.getElementById("femail").value;
             var city = document.getElementById("fcity").value;

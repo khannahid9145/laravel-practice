@@ -44,6 +44,7 @@
                     success: function(response) {
                         if (response.redirect) {
                             // Redirect to the new page
+                            localStorage.setItem('jwt_token', response.token);
                             window.location.href = response.redirect;
                         } else if (response.error) {
                             // Show error message
