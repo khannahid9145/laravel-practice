@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Student;
+// use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\DB;
 // jwt-auth secret [oxvyKG3CYRRZ3Of4VmoEGvHvybAp3DWfaKcfS16CieM5WVCGxCd11ivhS69KASgC] set successfully.
-use DB;
+// use DB;
 class PageControl extends Controller
 {
 
@@ -96,25 +97,24 @@ class PageControl extends Controller
     public function checkCredentials(Request $req){
         // print_r($req);exit;
         $check = DB::table("students")->where("name",$req->name)->where("email",$req->email)->exists();
-        if($check){
-            // return view("layout1");
-          
-            $user = new User();
-            $user->name = $req->name;
-            $user->email = $req->email;
-            // You should set the password and save the user if you plan to use it later
-            // $user->password = bcrypt('somepassword');
-            // $user->save();
-    
+        if ($check) {
+            // Check if the user already exists in the users table
+            $user = Student::where('email', $req->email)->first();
+
+            // If the user doesn't exist, create a new one
+            if (!$user) {
+                $user = new User();
+                $user->name = $req->name;
+                $user->email = $req->email;
+                $user->save(); // Save the user to the database
+            }
+
+            // Generate the token for the user
             $token = JWTAuth::fromUser($user);
-    
+
             // Return JSON response with the token and redirect URL
             return response()->json(['token' => $token, 'redirect' => route('layout')], 201);
-
-            // return response()->json(['token' => $token], 201);
-            // return response()->json(['redirect' => route('layout')]);
-            
-        }else{
+       }else{
             echo "<h1>Invalid credentials</h1>";
         }
     }
