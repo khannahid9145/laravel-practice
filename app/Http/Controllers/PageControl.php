@@ -103,7 +103,7 @@ class PageControl extends Controller
 
             // If the user doesn't exist, create a new one
             if (!$user) {
-                $user = new User();
+                $user = new Student();
                 $user->name = $req->name;
                 $user->email = $req->email;
                 $user->save(); // Save the user to the database
