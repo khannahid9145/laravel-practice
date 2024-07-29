@@ -4,6 +4,7 @@
     <a href="/layoutDesign" class="btn btn-secondary">Design Layout Page</a>
     <a href="{{ route('alldata') }}" class="btn btn-secondary">Page Control alldata</a>
     <a href="{{ route('home') }}" class="btn btn-secondary">Page Control</a>
+    <button type="button" class="btn btn-warning" onclick="logout()" name="Logout">Logout</button>
 
     <p>Hello Layout</p>
     <h5>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti repudiandae non facere similique eos veniam
@@ -19,6 +20,12 @@
     Home
 @endsection
 @push('scripts')
+<script>
+    function logout(){
+        localStorage.clear();
+        location.reload();
+    }
+</script>
 @endpush
 {{-- @push('scripts')
     <script src="/jquery.js"></script>
