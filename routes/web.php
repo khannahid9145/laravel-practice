@@ -39,3 +39,28 @@ Route::get('/by', 'App\Http\Controllers\PageControl')->name('home');
 Route::post('/check_credential', 'App\Http\Controllers\PageControl@checkCredentials');
 Route::get('/layout', 'App\Http\Controllers\PageControl@layout')->name('layout');
 
+// code for auth via username and pass
+// Route::get('/', function()
+// {
+//     if( Session::has('user') ) return 'Welcome ' . Session::get('user')->u_username;
+//     return 'Please log in <a href="/login">login</a>';
+// });
+
+// Route::get('/login', function() {
+//     $credentials = array('u_username' => 'johndoe', 'password' => 'johnny12');
+
+//     if( Auth::attempt($credentials, true) ){
+
+//         Session::put('user', Auth::user());
+//         return 'You have successfully logged in, ' . Auth::user()->u_username . '! <a href="/">Go back to Index</a>';
+//     } 
+
+//     return '<h1>Username/Password wrong.</h1>Your credentials seem to be wrong. Please re-check them.';
+
+// });
+
+// Route::get('/logout', function() {
+//     Auth::logout();
+//     Session::forget('user');
+//     return Redirect::to('/');
+// });
