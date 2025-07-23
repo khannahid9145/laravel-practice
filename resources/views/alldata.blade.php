@@ -4,6 +4,15 @@
         <div class="row">
             <div class="col-3">
                 <h1>All User's List</h1>
+                  <form method="GET" action="{{ route('alldata') }}">
+        <input
+            type="text"
+            name="search"
+            placeholder="Search..."
+            value="{{ request('search') }}"
+        >
+        <button type="submit">Search</button>
+    </form>
                 <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createModal">Add New</a>
 
                 <table class="table table-bordered table-striped">

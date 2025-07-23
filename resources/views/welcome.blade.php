@@ -5,6 +5,7 @@
     <div class="d-flex justify-content-between justify-content-around">
         <div class="">
         <a href="/form" class="btn btn-secondary">Registration Page</a>
+        <a href="/generate" class="btn btn-success">Generate Response</a>
     </div>
 </div>
 </div>

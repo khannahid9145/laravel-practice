@@ -1,10 +1,15 @@
 @include('pages.header')
 {{-- @yield('content') --}}
-@hasSection('content')
-    @yield('content')
-@else
-    <h2>No Content Found</h2>
-@endif
+            @hasSection('content')
+                @yield('content')
+            @else
+                <div class="p-4">
+                    <h2>No Content Found</h2>
+                </div>
+            @endif
+        </div>
+    </div>
+</div>
 
 @section('sidebar')
 @show

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\City;
 use Illuminate\Http\Request;
 use App\Models\Student;
+use App\Services\LlmController;
 // use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\DB;
@@ -12,91 +14,110 @@ use Illuminate\Support\Facades\DB;
 class PageControl extends Controller
 {
 
+    public function generateResponse()
+    {
+        $llmService = new LlmController();
+        $prompt = 'Write a short poem about Laravel.';
+        $response = $llmService->generateText($prompt);
+        return response($response);
+    }
+
     public function __invoke()
     {
         return "<h1>BYEE</h1>";
     }
-    public function show()
+    public function show(Request $request)
     {
-        // db::select('select * from cities');
-        $user = DB::table('cities')->orderBy('id','DESC')->paginate(5);
-        // $user = DB::table('cities')->where('id',2)->get();
-        //    return $user;
-        // dump($user);
-        // dd($user);
-        return view("alldata",['data'=>$user]);
-        // return view("layout2");
-        // foreach($user as $value_user){
-        //     echo $value_user->name . "<br>";
-        // }
+
+    
+        $query = City::query();
+
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhere('city', 'like', "%{$search}%")
+                    ->orWhere('gender', 'like', "%{$search}%")
+                    ->orWhere('area', 'like', "%{$search}%");
+            });
+        }
+
+        $data = $query->paginate(10);
+
+        return view('alldata', compact('data'));
     }
 
-    public function showData(string $id){
+    public function showData(string $id)
+    {
         $data = DB::table('cities')->find($id);
-        return view('showData',['data'=>$data]);
+        return view('showData', ['data' => $data]);
     }
 
     // public function add(Request $req){
     //     return redirect()->route('adduser');
     // }
-    
-    public function adduser(Request $req){
-        $user = DB :: table('cities')->insert([
-            'name'=> $req->name,
-            'email'=>  $req->email,
-            'city'=>  $req->city,
-            'gender'=>  $req->gender,
-            'area'=>  $req->area
+
+    public function adduser(Request $req)
+    {
+        $user = DB::table('cities')->insert([
+            'name' => $req->name,
+            'email' =>  $req->email,
+            'city' =>  $req->city,
+            'gender' =>  $req->gender,
+            'area' =>  $req->area
         ]);
 
-        if($user){
+        if ($user) {
             return redirect()->route("alldata");
-            // echo "<h1>data successfully inserted</h1>";
-        }else{
+        } else {
             echo "<h1>data NOT inserted</h1>";
         }
     }
 
-    public function updateUser(Request $req,string $id){
-        // echo $req;
-        // print_r($req);
-        $update_Data =  DB::table('cities')->where('id',$id)->update([
+    public function updateUser(Request $req, string $id)
+    {
+        $update_Data =  DB::table('cities')->where('id', $id)->update([
             'name' => $req->name,
-            'email'=>  $req->email,
-            'city'=>  $req->city,
-            'gender'=>  $req->gender,
-            'area'=>  $req->area
+            'email' =>  $req->email,
+            'city' =>  $req->city,
+            'gender' =>  $req->gender,
+            'area' =>  $req->area
         ]);
 
-        if($update_Data){
+        if ($update_Data) {
             // return redirect()->route("alldata");
             echo "successfully";
-        }else{
+        } else {
             echo "<h1>data NOT Updated</h1>";
         }
     }
 
-    public function updateDetails(string $id){
+    public function updateDetails(string $id)
+    {
         $updateData = DB::table('cities')->find($id);
         return $updateData;
         // return view('update',['data'=>$updateData]);
     }
-    public function deleteuser(string $id){
-        $delete_Data = DB::table("cities")->where("id",$id)->delete();
-        if($delete_Data){
+    public function deleteuser(string $id)
+    {
+        $delete_Data = DB::table("cities")->where("id", $id)->delete();
+        if ($delete_Data) {
             return redirect()->route("alldata");
-        }else{
+        } else {
             echo "<h1>data NOT deleted</h1>";
         }
     }
 
-    public function deleteAllUser(){
+    public function deleteAllUser()
+    {
         $deleteAll =  DB::table("cities")->delete();
     }
 
-    public function checkCredentials(Request $req){
+    public function checkCredentials(Request $req)
+    {
         // print_r($req);exit;
-        $check = DB::table("students")->where("name",$req->name)->where("email",$req->email)->exists();
+        $check = DB::table("students")->where("name", $req->name)->where("email", $req->email)->exists();
         if ($check) {
             // Check if the user already exists in the users table
             $user = Student::where('email', $req->email)->first();
@@ -114,12 +135,13 @@ class PageControl extends Controller
 
             // Return JSON response with the token and redirect URL
             return response()->json(['token' => $token, 'redirect' => route('layout')], 201);
-       }else{
+        } else {
             echo "<h1>Invalid credentials</h1>";
         }
     }
 
-    public function layout(){
+    public function layout()
+    {
         return view("layout1");
     }
 }
